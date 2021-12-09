@@ -27,11 +27,11 @@ def index(request, funder=''):
 
     collection_data = {}
     for record in records:
-        record_id = record['record_id']
-        project_name = record['project_name']
-        proj_expected = record['total_expected_parti_pants']
-        proj_collected = record['how_many_participant_oject']
-        funder_name = record['funder_name']
+        record_id = record.get('record_id', '')
+        project_name = record.get('project_name', '')
+        proj_expected = record.get('total_expected_parti_pants', '')
+        proj_collected = record.get('how_many_participant_oject', '')
+        funder_name = record.get('funder_name', '')
         for special in [' ']:
             funder_name = funder_name.replace(special, '_').lower()
         for special in ['/']:
@@ -220,8 +220,8 @@ def projectdetail(request, pid):
             
     ### Progress
     overall_expected = project_data['project_details']['total_expected_parti_pants']
-    if len(collections) != 0 and project_data[collections[-1]]['how_many_participant_oject'] != '':
-        overall_recruited = project_data[collections[-1]]['how_many_participant_oject']
+    if len(collections) != 0 and project_data[collections[-1]].get('how_many_participant_oject', '') != '':
+        overall_recruited = project_data[collections[-1]].get('how_many_participant_oject', '')
     else:
         overall_recruited = 0
     progress = round(int(overall_recruited) * 100 / int(overall_expected))
@@ -232,8 +232,8 @@ def projectdetail(request, pid):
         if 'collected' not in collection_data:
             collection_data['collected'] = []
             collection_data['expected'] = []
-        if len(collections) != 0 and project_data[col]['how_many_participant_oject'] != '':
-            collect = project_data[col]['how_many_participant_oject']
+        if len(collections) != 0 and project_data[col].get('how_many_participant_oject', '') != '':
+            collect = project_data[col].get('how_many_participant_oject', '')
         else:
             collect = 0
         collection_data['collected'].append(int(collect))
